@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Ραντεβού - Beauty Salon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description"
+          content="Κλείσε online ραντεβού για μανικιούρ, πεντικιούρ και αποτρίχωση σε ένα κομψό beauty salon.">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Optional: elegant serif for headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <div class="header-inner">
+            <p class="header-label">Θεσσαλονίκη · Beauty Salon</p>
+            <h1 class="header-title">Κλείσε το ραντεβού σου</h1>
+            <p class="header-subtitle">Μανικιούρ, πεντικιούρ & αποτρίχωση σε ένα ζεστό, πολυτελές περιβάλλον.</p>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="booking-shell" aria-label="Φόρμα online ραντεβού">
+            <!-- Stepper -->
+            <ol class="stepper" aria-label="Βήματα κράτησης">
+                <li class="stepper-item stepper-item--active" data-step="1">
+                    Υπηρεσία
+                    <div class="stepper-sub" id="stepSub1"></div>
+                </li>
+                <li class="stepper-item" data-step="2">
+                    Λεπτομέρειες
+                    <div class="stepper-sub" id="stepSub2"></div>
+                </li>
+                <li class="stepper-item" data-step="3">
+                    Ημέρα
+                    <div class="stepper-sub" id="stepSub3"></div>
+                </li>
+                <li class="stepper-item" data-step="4">
+                    Ώρα
+                    <div class="stepper-sub" id="stepSub4"></div>
+                </li>
+                <li class="stepper-item" data-step="5">
+                    Στοιχεία
+                    <div class="stepper-sub" id="stepSub5"></div>
+                </li>
+            </ol>
+
+            <form id="bookingForm" class="booking-form" action="book.php" method="post" novalidate>
+                <!-- Hidden values for backend -->
+                <input type="hidden" name="service_category" id="serviceCategoryInput">
+                <input type="hidden" name="service_id" id="serviceIdInput">
+                <input type="hidden" name="service_name" id="serviceNameInput">
+                <input type="hidden" name="time" id="timeInput">
+
+                <!-- STEP 1: Category -->
+                <section class="step step--visible" data-step="1">
+                    <h2 class="step-title">Τι θα ήθελες να κάνεις;</h2>
+                    <p class="step-subtitle">Διάλεξε τύπο υπηρεσίας για να ξεκινήσουμε.</p>
+
+                    <div class="choice-grid choice-grid--3" role="radiogroup" aria-label="Κατηγορία υπηρεσίας">
+                        <button type="button"
+                                class="choice-tile"
+                                data-category="manicure"
+                                aria-pressed="false">
+                            <span class="choice-emoji">💅</span>
+                            <span class="choice-title">Μανικιούρ</span>
+                            <span class="choice-subtitle">Κλασικό & ημιμόνιμο</span>
+                        </button>
+
+                        <button type="button"
+                                class="choice-tile"
+                                data-category="pedicure"
+                                aria-pressed="false">
+                            <span class="choice-emoji">🦶</span>
+                            <span class="choice-title">Πεντικιούρ</span>
+                            <span class="choice-subtitle">Spa & ημιμόνιμο</span>
+                        </button>
+
+                        <button type="button"
+                                class="choice-tile"
+                                data-category="wax"
+                                aria-pressed="false">
+                            <span class="choice-emoji">✨</span>
+                            <span class="choice-title">Αποτρίχωση</span>
+                            <span class="choice-subtitle">Περιοχές σώματος & προσώπου</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- STEP 2: Specific service -->
+                <section class="step" data-step="2">
+                    <h2 class="step-title">Επίλεξε υπηρεσία</h2>
+                    <p class="step-subtitle">Θα σου εμφανίσουμε μόνο τις υπηρεσίες για την κατηγορία που διάλεξες.</p>
+
+                    <div id="serviceTiles" class="choice-grid" role="radiogroup" aria-label="Επιλογή υπηρεσίας">
+                        <!-- Manicure -->
+                        <button type="button" class="choice-tile"
+                                data-category="manicure"
+                                data-service-id="1"
+                                data-service-name="Μανικιούρ απλό"
+                                aria-pressed="false">
+                            <span class="choice-title">Μανικιούρ απλό</span>
+                            <span class="choice-subtitle">Περιποίηση & απλό βερνίκι · ~40'</span>
+                        </button>
+
+                        <button type="button" class="choice-tile"
+                                data-category="manicure"
+                                data-service-id="2"
+                                data-service-name="Μανικιούρ ημιμόνιμο"
+                                aria-pressed="false">
+                            <span class="choice-title">Μανικιούρ ημιμόνιμο</span>
+                            <span class="choice-subtitle">Ημιμόνιμο βερνίκι · ~60'</span>
+                        </button>
+
+                        <!-- Pedicure -->
+                        <button type="button" class="choice-tile"
+                                data-category="pedicure"
+                                data-service-id="3"
+                                data-service-name="Πεντικιούρ απλό"
+                                aria-pressed="false">
+                            <span class="choice-title">Πεντικιούρ απλό</span>
+                            <span class="choice-subtitle">Περιποίηση & απλό βερνίκι · ~50'</span>
+                        </button>
+
+                        <button type="button" class="choice-tile"
+                                data-category="pedicure"
+                                data-service-id="4"
+                                data-service-name="Πεντικιούρ spa / ημιμόνιμο"
+                                aria-pressed="false">
+                            <span class="choice-title">Πεντικιούρ spa / ημιμόνιμο</span>
+                            <span class="choice-subtitle">Spa & ημιμόνιμο · ~70'</span>
+                        </button>
+
+                        <!-- Wax -->
+                        <button type="button" class="choice-tile"
+                                data-category="wax"
+                                data-service-id="5"
+                                data-service-name="Αποτρίχωση φρύδια"
+                                aria-pressed="false">
+                            <span class="choice-title">Αποτρίχωση φρύδια</span>
+                            <span class="choice-subtitle">Σχήμα & καθάρισμα · ~20'</span>
+                        </button>
+
+                        <button type="button" class="choice-tile"
+                                data-category="wax"
+                                data-service-id="6"
+                                data-service-name="Αποτρίχωση άνω χείλος"
+                                aria-pressed="false">
+                            <span class="choice-title">Αποτρίχωση άνω χείλος</span>
+                            <span class="choice-subtitle">Γρήγορη φροντίδα · ~15'</span>
+                        </button>
+
+                        <button type="button" class="choice-tile"
+                                data-category="wax"
+                                data-service-id="7"
+                                data-service-name="Αποτρίχωση πόδια"
+                                aria-pressed="false">
+                            <span class="choice-title">Αποτρίχωση πόδια</span>
+                            <span class="choice-subtitle">Μηροί & γάμπες · ~45'</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- STEP 3: Date -->
+                <section class="step" data-step="3">
+                    <h2 class="step-title">Επίλεξε ημέρα</h2>
+                    <p class="step-subtitle">Διάλεξε την ημερομηνία που σε βολεύει.</p>
+
+                    <!-- Inline calendar -->
+                    <div class="calendar-shell">
+                        <div class="calendar-header">
+                            <button type="button"
+                                    class="calendar-nav"
+                                    id="calendarPrev"
+                                    aria-label="Προηγούμενος μήνας">
+                                ‹
+                            </button>
+                            <div class="calendar-month" id="calendarMonthLabel"></div>
+                            <button type="button"
+                                    class="calendar-nav"
+                                    id="calendarNext"
+                                    aria-label="Επόμενος μήνας">
+                                ›
+                            </button>
+                        </div>
+
+                        <!-- Weekday row -->
+                        <div class="calendar-grid calendar-weekdays" aria-hidden="true">
+                            <div>Δε</div>
+                            <div>Τρ</div>
+                            <div>Τε</div>
+                            <div>Πε</div>
+                            <div>Πα</div>
+                            <div>Σα</div>
+                            <div>Κυ</div>
+                        </div>
+
+                        <!-- Days, filled by JS -->
+                        <div class="calendar-grid" id="calendarDays" aria-label="Επιλογή ημερομηνίας">
+                            <!-- JS will insert dates here -->
+                        </div>
+                    </div>
+
+                    <!-- Hidden field used by the form + stepper summaries -->
+                    <input type="hidden" id="dateInput" name="date" required>
+                </section>
+
+                <!-- STEP 4: Time -->
+                <section class="step" data-step="4">
+                    <h2 class="step-title">Επίλεξε ώρα</h2>
+                    <p class="step-subtitle">Οι ώρες είναι ενδεικτικές. Αργότερα θα συνδεθούν με πραγματική διαθεσιμότητα.</p>
+
+                    <div id="timeSlots" class="time-grid" role="radiogroup" aria-label="Επιλογή ώρας">
+                        <button type="button" class="time-slot" data-time="10:00" aria-pressed="false">10:00</button>
+                        <button type="button" class="time-slot" data-time="11:30" aria-pressed="false">11:30</button>
+                        <button type="button" class="time-slot" data-time="13:00" aria-pressed="false">13:00</button>
+                        <button type="button" class="time-slot" data-time="15:30" aria-pressed="false">15:30</button>
+                        <button type="button" class="time-slot" data-time="17:00" aria-pressed="false">17:00</button>
+                        <button type="button" class="time-slot" data-time="18:30" aria-pressed="false">18:30</button>
+                    </div>
+                </section>
+
+                <!-- STEP 5: Client details -->
+                <section class="step" data-step="5">
+                    <h2 class="step-title">Στοιχεία επικοινωνίας</h2>
+                    <p class="step-subtitle">Συμπλήρωσε τα στοιχεία σου για να επιβεβαιώσουμε το ραντεβού.</p>
+
+                    <div class="field">
+                        <label for="nameInput" class="field-label">Ονοματεπώνυμο *</label>
+                        <input type="text" id="nameInput" name="client_name" autocomplete="name" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="phoneInput" class="field-label">Κινητό τηλέφωνο *</label>
+                        <input
+                            type="tel"
+                            id="phoneInput"
+                            name="phone"
+                            autocomplete="tel"
+                            pattern="\\+?[0-9 ]{8,15}"
+                            placeholder="π.χ. 69XXXXXXXX"
+                            required>
+                    </div>
+
+                    <div class="field">
+                        <label for="emailInput" class="field-label">Email (προαιρετικό)</label>
+                        <input type="email" id="emailInput" name="email" autocomplete="email">
+                    </div>
+
+                    <div class="field">
+                        <label for="notesInput" class="field-label">Σχόλια / προτιμήσεις (προαιρετικά)</label>
+                        <textarea id="notesInput" name="notes" rows="3"
+                                  placeholder="Πες μας αν έχεις κάποια ιδιαίτερη ανάγκη ή απορία."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        Επιβεβαίωση ραντεβού
+                    </button>
+
+                    <p class="form-footnote">
+                        Με την αποστολή αποδέχεσαι την επεξεργασία των δεδομένων σου σύμφωνα
+                        με την πολιτική απορρήτου του καταστήματος.
+                    </p>
+                </section>
+            </form>
+        </section>
+
+        <footer class="footer">
+            <p>© <span id="year"></span> Beauty Salon · Θεσσαλονίκη</p>
+        </footer>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const today = new Date();
+        const dateInput = document.getElementById('dateInput');
+        const yearSpan = document.getElementById('year');
+
+        if (yearSpan) {
+            yearSpan.textContent = today.getFullYear();
+        }
+
+        const steps = document.querySelectorAll('.step');
+        const stepperItems = document.querySelectorAll('.stepper-item');
+
+        let maxStepAvailable = 1;
+
+        /* Hidden form fields */
+        const serviceCategoryInput = document.getElementById('serviceCategoryInput');
+        const serviceIdInput = document.getElementById('serviceIdInput');
+        const serviceNameInput = document.getElementById('serviceNameInput');
+        const timeInput = document.getElementById('timeInput');
+        const nameInput = document.getElementById('nameInput');
+
+        /* Choice tiles & slots */
+        const categoryTiles = document.querySelectorAll('[data-category]:not([data-service-id])');
+        const serviceTiles = document.querySelectorAll('#serviceTiles [data-service-id]');
+        const timeSlots = document.querySelectorAll('.time-slot');
+
+        /* Stepper subtitles under dots */
+        const stepSub1 = document.getElementById('stepSub1');
+        const stepSub2 = document.getElementById('stepSub2');
+        const stepSub3 = document.getElementById('stepSub3');
+        const stepSub4 = document.getElementById('stepSub4');
+        const stepSub5 = document.getElementById('stepSub5');
+
+        /* Inline calendar elements & state (Step 3) */
+        const calendarMonthLabel = document.getElementById('calendarMonthLabel');
+        const calendarDaysContainer = document.getElementById('calendarDays');
+        const calendarPrevBtn = document.getElementById('calendarPrev');
+        const calendarNextBtn = document.getElementById('calendarNext');
+
+        // Earliest selectable day = σήμερα (no past dates)
+        const minSelectableDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+        // Month currently shown in the small calendar
+        let calendarYear = minSelectableDate.getFullYear();
+        let calendarMonth = minSelectableDate.getMonth(); // 0–11
+
+        /* Demo availability per date (0–1)
+           TODO: later this will come from the backend */
+        const availability = {
+            '2025-12-11': 0.8,
+            '2025-12-12': 0.4,
+            '2025-12-13': 0.15,
+            '2025-12-14': 0.0
+        };
+
+        // Map availability percentage (0–1) to one of three classes
+        function getAvailabilityClass(level) {
+            if (level === undefined || level === null) return null;
+
+            // High availability: e.g. 75%+ free
+            if (level >= 0.75) {
+                return 'calendar-day-hint--high';
+            }
+
+            // Some availability but not great ( >0 and <75% )
+            if (level > 0) {
+                return 'calendar-day-hint--low';
+            }
+
+            // 0% – fully booked
+            return 'calendar-day-hint--none';
+        }
+
+        /* Helper data & functions */
+
+        const monthsShort = ['Ιαν', 'Φεβ', 'Μαρ', 'Απρ', 'Μάι', 'Ιουν', 'Ιουλ', 'Αυγ', 'Σεπ', 'Οκτ', 'Νοε', 'Δεκ'];
+
+        const monthsFull = [
+            'Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος',
+            'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'
+        ];
+
+        function isSameDate(a, b) {
+            return a.getFullYear() === b.getFullYear()
+                && a.getMonth() === b.getMonth()
+                && a.getDate() === b.getDate();
+        }
+
+        function updateCalendarNavButtons() {
+            if (!calendarPrevBtn || !calendarNextBtn) return;
+
+            // Δεν επιτρέπουμε πλοήγηση σε μήνα πριν από τον τρέχοντα
+            const minYear = minSelectableDate.getFullYear();
+            const minMonth = minSelectableDate.getMonth();
+
+            const prevAllowed =
+                calendarYear > minYear ||
+                (calendarYear === minYear && calendarMonth > minMonth);
+
+            calendarPrevBtn.disabled = !prevAllowed;
+            calendarPrevBtn.classList.toggle('calendar-nav--disabled', !prevAllowed);
+        }
+
+        function formatDateReadable(isoDate) {
+            if (!isoDate) return '';
+            const parts = isoDate.split('-');
+            if (parts.length !== 3) return isoDate;
+            const day = Number(parts[2]);
+            const monthIndex = Number(parts[1]) - 1;
+            const month = monthsShort[monthIndex] || '';
+            return day + ' ' + month;
+        }
+
+        function getCategoryLabel(code) {
+            switch (code) {
+                case 'manicure':
+                    return 'Μανικιούρ';
+                case 'pedicure':
+                    return 'Πεντικιούρ';
+                case 'wax':
+                    return 'Αποτρίχωση';
+                default:
+                    return '';
+            }
+        }
+
+        function truncate(text, maxLength) {
+            if (!text) return '';
+            const trimmed = String(text).trim();
+            if (trimmed.length <= maxLength) return trimmed;
+            return trimmed.slice(0, maxLength - 1) + '…';
+        }
+
+        function updateStepperSummaries() {
+            // Step 1: category
+            stepSub1.textContent = getCategoryLabel(serviceCategoryInput.value);
+
+            // Step 2: specific service (shortened)
+            stepSub2.textContent = truncate(serviceNameInput.value || '', 18);
+
+            // Step 3: date
+            stepSub3.textContent = (dateInput && dateInput.value)
+                ? formatDateReadable(dateInput.value)
+                : '';
+
+            // Step 4: time
+            stepSub4.textContent = timeInput.value || '';
+
+            // Step 5: client name (shortened)
+            const nameValue = nameInput && nameInput.value ? nameInput.value : '';
+            stepSub5.textContent = truncate(nameValue, 14);
+        }
+
+        function buildCalendar(year, month) {
+            if (!calendarDaysContainer || !calendarMonthLabel) return;
+
+            calendarYear = year;
+            calendarMonth = month;
+
+            // Ενημέρωση τίτλου μήνα
+            calendarMonthLabel.textContent = (monthsFull[month] || '') + ' ' + year;
+
+            // Καθαρισμός παλιών ημερών
+            calendarDaysContainer.innerHTML = '';
+
+            const firstOfMonth = new Date(year, month, 1);
+            let startDay = firstOfMonth.getDay(); // 0 = Κυρ
+            // Μετατροπή ώστε 0 = Δευτέρα, 6 = Κυριακή
+            startDay = (startDay + 6) % 7;
+
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const selectedIso = dateInput.value;
+
+            // Κενά κουτάκια πριν την 1η του μήνα
+            for (let i = 0; i < startDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-day calendar-day--empty';
+                calendarDaysContainer.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateObj = new Date(year, month, day);
+                const iso = dateObj.toISOString().split('T')[0];
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = String(day);
+                btn.className = 'calendar-day';
+
+                const isPast = dateObj < minSelectableDate;
+
+                if (isPast) {
+                    btn.classList.add('calendar-day--disabled');
+                    btn.disabled = true;
+                } else {
+                    if (isSameDate(dateObj, minSelectableDate)) {
+                        btn.classList.add('calendar-day--today');
+                    }
+
+                    // Availability hint (small bar under each day)
+                    const level = availability[iso];
+                    const hintClass = getAvailabilityClass(level);
+                    if (hintClass) {
+                        const hint = document.createElement('span');
+                        hint.className = 'calendar-day-hint ' + hintClass;
+                        btn.appendChild(hint);
+                    }
+
+                    btn.addEventListener('click', () => {
+                        const prevSelected = calendarDaysContainer.querySelector('.calendar-day--selected');
+                        if (prevSelected) {
+                            prevSelected.classList.remove('calendar-day--selected');
+                        }
+
+                        btn.classList.add('calendar-day--selected');
+
+                        // Update hidden input and trigger change logic
+                        dateInput.value = iso;
+                        dateInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    });
+                }
+
+                if (selectedIso && iso === selectedIso) {
+                    btn.classList.add('calendar-day--selected');
+                }
+
+                calendarDaysContainer.appendChild(btn);
+            }
+
+            updateCalendarNavButtons();
+        }
+
+        function updateStepperLockState() {
+            stepperItems.forEach(item => {
+                const itemStep = Number(item.dataset.step);
+                item.classList.toggle('stepper-item--locked', itemStep > maxStepAvailable);
+            });
+        }
+
+        function showStep(stepNumber) {
+            steps.forEach(step => {
+                step.classList.toggle('step--visible', step.dataset.step === String(stepNumber));
+            });
+
+            stepperItems.forEach(item => {
+                const itemStep = Number(item.dataset.step);
+                item.classList.toggle('stepper-item--active', itemStep === stepNumber);
+                item.classList.toggle('stepper-item--completed', itemStep < stepNumber);
+            });
+        }
+
+        /* Initial state */
+        updateStepperSummaries();
+        updateStepperLockState();
+        showStep(1);
+
+        // Initial calendar (current month)
+        buildCalendar(calendarYear, calendarMonth);
+
+        // Calendar navigation
+        if (calendarPrevBtn) {
+            calendarPrevBtn.addEventListener('click', () => {
+                const prevMonthDate = new Date(calendarYear, calendarMonth - 1, 1);
+                const minMonthDate = new Date(minSelectableDate.getFullYear(), minSelectableDate.getMonth(), 1);
+                if (prevMonthDate >= minMonthDate) {
+                    buildCalendar(prevMonthDate.getFullYear(), prevMonthDate.getMonth());
+                }
+            });
+        }
+
+        if (calendarNextBtn) {
+            calendarNextBtn.addEventListener('click', () => {
+                const nextMonthDate = new Date(calendarYear, calendarMonth + 1, 1);
+                buildCalendar(nextMonthDate.getFullYear(), nextMonthDate.getMonth());
+            });
+        }
+
+        /* Clickable dots (only up to maxStepAvailable) */
+        stepperItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetStep = Number(item.dataset.step);
+                if (targetStep <= maxStepAvailable) {
+                    showStep(targetStep);
+                }
+            });
+        });
+
+        /* STEP 1: Category selection */
+        categoryTiles.forEach(tile => {
+            tile.addEventListener('click', () => {
+                categoryTiles.forEach(t => {
+                    t.classList.remove('choice-tile--selected');
+                    t.setAttribute('aria-pressed', 'false');
+                });
+                tile.classList.add('choice-tile--selected');
+                tile.setAttribute('aria-pressed', 'true');
+
+                const category = tile.dataset.category;
+                serviceCategoryInput.value = category;
+
+                // Filter services for this category
+                serviceTiles.forEach(serviceTile => {
+                    const belongsToCategory = serviceTile.dataset.category === category;
+                    serviceTile.style.display = belongsToCategory ? 'flex' : 'none';
+                    serviceTile.classList.remove('choice-tile--selected');
+                    serviceTile.setAttribute('aria-pressed', 'false');
+                });
+
+                // Reset dependent fields: service, date, time
+                serviceIdInput.value = '';
+                serviceNameInput.value = '';
+                if (dateInput) dateInput.value = '';
+                timeInput.value = '';
+                timeSlots.forEach(s => {
+                    s.classList.remove('time-slot--selected');
+                    s.setAttribute('aria-pressed', 'false');
+                });
+
+                // After changing category, only steps 1–2 are valid
+                maxStepAvailable = 2;
+                updateStepperSummaries();
+                updateStepperLockState();
+                showStep(2);
+            });
+        });
+
+        /* STEP 2: Service selection */
+        serviceTiles.forEach(tile => {
+            tile.addEventListener('click', () => {
+                serviceTiles.forEach(t => {
+                    t.classList.remove('choice-tile--selected');
+                    t.setAttribute('aria-pressed', 'false');
+                });
+                tile.classList.add('choice-tile--selected');
+                tile.setAttribute('aria-pressed', 'true');
+
+                serviceIdInput.value = tile.dataset.serviceId;
+                serviceNameInput.value = tile.dataset.serviceName || '';
+
+                // When changing service, reset date/time (availability may differ)
+                if (dateInput) dateInput.value = '';
+                timeInput.value = '';
+                timeSlots.forEach(s => {
+                    s.classList.remove('time-slot--selected');
+                    s.setAttribute('aria-pressed', 'false');
+                });
+
+                // Now steps 1–3 are valid
+                maxStepAvailable = 3;
+                updateStepperSummaries();
+                updateStepperLockState();
+                showStep(3);
+            });
+        });
+
+        /* STEP 3: Date selection */
+        if (dateInput) {
+            dateInput.addEventListener('change', () => {
+                if (dateInput.value) {
+                    // Changing date clears time
+                    timeInput.value = '';
+                    timeSlots.forEach(s => {
+                        s.classList.remove('time-slot--selected');
+                        s.setAttribute('aria-pressed', 'false');
+                    });
+
+                    // Now steps 1–4 are valid
+                    maxStepAvailable = 4;
+                    updateStepperSummaries();
+                    updateStepperLockState();
+                    showStep(4);
+                } else {
+                    maxStepAvailable = 3;
+                    updateStepperSummaries();
+                    updateStepperLockState();
+                }
+            });
+        }
+
+        /* STEP 4: Time selection */
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', () => {
+                timeSlots.forEach(s => {
+                    s.classList.remove('time-slot--selected');
+                    s.setAttribute('aria-pressed', 'false');
+                });
+                slot.classList.add('time-slot--selected');
+                slot.setAttribute('aria-pressed', 'true');
+
+                timeInput.value = slot.dataset.time || '';
+
+                // Now all steps 1–5 are valid
+                maxStepAvailable = 5;
+                updateStepperSummaries();
+                updateStepperLockState();
+                showStep(5);
+            });
+        });
+
+        /* STEP 5: Client name updates subtext */
+        if (nameInput) {
+            nameInput.addEventListener('input', updateStepperSummaries);
+        }
+
+        /* Submit guard – jump to first missing step */
+        const form = document.getElementById('bookingForm');
+        form.addEventListener('submit', function (e) {
+            const missing = [];
+
+            if (!serviceCategoryInput.value) missing.push({ field: 'κατηγορία υπηρεσίας', step: 1 });
+            if (!serviceIdInput.value) missing.push({ field: 'υπηρεσία', step: 2 });
+            if (!dateInput.value) missing.push({ field: 'ημερομηνία', step: 3 });
+            if (!timeInput.value) missing.push({ field: 'ώρα', step: 4 });
+
+            if (missing.length > 0) {
+                e.preventDefault();
+                const firstMissing = missing[0];
+                alert('Παρακαλώ συμπλήρωσε: ' +
+                    missing.map(m => m.field).join(', ') + '.');
+
+                maxStepAvailable = Math.max(maxStepAvailable, firstMissing.step);
+                updateStepperLockState();
+                showStep(firstMissing.step);
+            }
+        });
+    });
+</script>
+</body>
+</html>
