@@ -24,7 +24,9 @@ body {
         linear-gradient(160deg, #3D402F, #26281D);
     color: #FCF9D8;
     min-height: 100vh;
+    line-height: 1.5;   /* πιο άνετο διάβασμα σε όλα τα κείμενα */
 }
+
 
 /* Layout shell */
 
@@ -77,14 +79,15 @@ body {
 
 .booking-shell {
     max-width: 480px;
-    margin: 1.25rem auto 1.5rem;
-    padding: 1.5rem 1.25rem 1.75rem;
+    margin: 1.5rem auto 1.75rem;        /* λίγο πιο έξω από τα άκρα της κάρτας */
+    padding: 1.9rem 1.5rem 2.1rem;      /* περισσότερο αέρα μέσα στην κάρτα */
     background: rgba(252, 249, 216, 0.96);
     color: #3D402F;
     border-radius: 24px;
     box-shadow: 0 22px 45px rgba(0, 0, 0, 0.35);
     backdrop-filter: blur(12px);
 }
+
 
 /* Stepper */
 
@@ -94,10 +97,11 @@ body {
     justify-content: space-between;
     gap: 0;
     padding: 0;
-    margin: 0 0 1.25rem;
+    margin: 0 0 1.6rem;     /* περισσότερο κενό κάτω από τα βήματα */
     font-size: 0.7rem;
     position: relative;
 }
+
 
 .stepper-item {
     flex: 1 1 0;
@@ -189,45 +193,37 @@ body {
 }
 
 .step-title {
-    margin: 0 0 0.3rem;
+    margin: 0 0 0.45rem;        /* λίγο περισσότερο κάτω από τον τίτλο */
     font-family: "Playfair Display", serif;
     font-size: 1.2rem;
 }
 
 .step-subtitle {
-    margin: 0 0 1rem;
+    margin: 0.15rem 0 1.4rem;   /* πιο άνετο κενό πριν από το περιεχόμενο */
     font-size: 0.85rem;
     color: rgba(61, 64, 47, 0.8);
+    line-height: 1.5;
 }
 
-/* Choice grids & tiles */
 
+/* Choice grids & tiles */
 .choice-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.65rem;
-}
-
-.choice-grid--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-@media (max-width: 420px) {
-    .choice-grid--3 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    gap: 0.8rem;      /* μεγαλύτερη απόσταση μεταξύ επιλογών */
 }
 
 .choice-tile {
     border: none;
     border-radius: 18px;
     padding: 0.65rem 0.7rem;
-    text-align: left;
+    text-align: center;  /* centered text */
     background: linear-gradient(135deg, rgba(201, 159, 205, 0.18), rgba(252, 249, 216, 0.95));
     box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
     cursor: pointer;
     display: flex;
     flex-direction: column;
+    align-items: center; /* center children horizontally */
     gap: 0.15rem;
     transition:
         transform 0.12s ease,
@@ -236,6 +232,7 @@ body {
         border-color 0.12s ease;
     border: 1px solid rgba(61, 64, 47, 0.08);
 }
+
 
 .choice-tile:hover {
     transform: translateY(-1px);
@@ -246,11 +243,6 @@ body {
     border-color: #3D402F;
     background: linear-gradient(135deg, #C99FCD, #FCF9D8);
     box-shadow: 0 12px 22px rgba(61, 64, 47, 0.35);
-}
-
-.choice-emoji {
-    font-size: 1.2rem;
-    margin-bottom: 0.1rem;
 }
 
 .choice-title {
@@ -266,7 +258,7 @@ body {
 /* Fields */
 
 .field {
-    margin-bottom: 0.85rem;
+    margin-bottom: 1rem;
 }
 
 .field-label {
@@ -310,9 +302,10 @@ textarea {
 .time-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5rem;
-    margin-top: 0.4rem;
+    gap: 0.6rem;
+    margin-top: 0.7rem;  /* περισσότερη απόσταση από το κείμενο */
 }
+
 
 @media (max-width: 420px) {
     .time-grid {
@@ -404,8 +397,8 @@ textarea {
     }
 
     .booking-shell {
-        margin: 0.75rem auto 1.25rem;
-        padding: 1.25rem 0.9rem 1.4rem;
+        margin: 0.85rem auto 1.35rem;
+        padding: 1.5rem 1rem 1.7rem;   /* πιο γενναιόδωρο padding και σε mobile */
         border-radius: 20px;
     }
 
@@ -431,12 +424,13 @@ textarea {
 /* Inline calendar for date step */
 
 .calendar-shell {
-    margin-top: 0.35rem;
-    padding: 0.6rem 0.7rem 0.8rem;
+    margin-top: 0.6rem;                /* πιο χαλαρή απόσταση από το κείμενο */
+    padding: 0.75rem 0.85rem 0.95rem;  /* περισσότερο αέρα γύρω από το ημερολόγιο */
     border-radius: 14px;
     background-color: #FCF9D8;
     border: 1px solid rgba(61, 64, 47, 0.18);
 }
+
 
 .calendar-header {
     display: flex;
