@@ -130,7 +130,7 @@ body {
 .stepper::before {
     content: "";
     position: absolute;
-    top: 0.34rem;
+    top: 0.75rem;
     left: 10%;
     right: 10%;
     height: 2px;
@@ -590,3 +590,4 @@ textarea {
         font-size: 0.68rem;
     }
 }
+
