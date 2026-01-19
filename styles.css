@@ -88,6 +88,97 @@ body {
     backdrop-filter: blur(12px);
 }
 
+/* Password gate */
+
+.lock-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: radial-gradient(circle at top, rgba(252, 249, 216, 0.1), rgba(21, 23, 15, 0.95));
+    color: #FCF9D8;
+    z-index: 999;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.lock-overlay--hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.lock-card {
+    width: min(420px, 92vw);
+    padding: 1.6rem 1.5rem 1.7rem;
+    border-radius: 18px;
+    background: rgba(252, 249, 216, 0.98);
+    color: #3D402F;
+    box-shadow: 0 22px 45px rgba(0, 0, 0, 0.45);
+}
+
+.lock-eyebrow {
+    margin: 0 0 0.4rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    opacity: 0.7;
+}
+
+.lock-title {
+    margin: 0 0 0.35rem;
+    font-family: "Playfair Display", "Times New Roman", serif;
+    font-size: 1.5rem;
+}
+
+.lock-subtitle {
+    margin: 0 0 1rem;
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.lock-form {
+    margin-top: 0.4rem;
+}
+
+.lock-label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+.lock-row {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.lock-input {
+    flex: 1;
+}
+
+.lock-button {
+    white-space: nowrap;
+}
+
+.lock-error {
+    margin: 0.5rem 0 0;
+    font-size: 0.78rem;
+    color: #A23333;
+    min-height: 1.1rem;
+}
+
+body.is-locked {
+    overflow: hidden;
+}
+
+body.is-locked .page {
+    filter: blur(6px);
+    pointer-events: none;
+}
+
 
 /* Stepper */
 
@@ -130,7 +221,7 @@ body {
 .stepper::before {
     content: "";
     position: absolute;
-    top: 0.75rem;
+    top: 0.34rem;
     left: 10%;
     right: 10%;
     height: 2px;
@@ -272,6 +363,7 @@ input[type="date"],
 input[type="text"],
 input[type="tel"],
 input[type="email"],
+input[type="password"],
 textarea {
     width: 100%;
     font-size: 0.94rem;
@@ -369,6 +461,13 @@ textarea {
 .btn-primary:active {
     transform: translateY(1px);
     box-shadow: 0 8px 16px rgba(61, 64, 47, 0.4);
+}
+
+.btn-primary.lock-button {
+    width: auto;
+    margin-top: 0;
+    padding: 0.6rem 1rem;
+    flex: 0 0 auto;
 }
 
 /* Form helper text */
@@ -590,4 +689,3 @@ textarea {
         font-size: 0.68rem;
     }
 }
-

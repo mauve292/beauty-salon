@@ -17,6 +17,28 @@
         rel="stylesheet">
 </head>
 <body>
+<div class="lock-overlay" id="lockOverlay" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+    <div class="lock-card">
+        <p class="lock-eyebrow">Πρόσβαση πελατών</p>
+        <h2 class="lock-title" id="lockTitle">Κωδικός πρόσβασης</h2>
+        <p class="lock-subtitle">Για να συνεχίσεις, πληκτρολόγησε τον κωδικό.</p>
+
+        <form class="lock-form" id="lockForm" novalidate>
+            <label class="lock-label" for="lockPassword">Κωδικός</label>
+            <div class="lock-row">
+                <input
+                    type="password"
+                    id="lockPassword"
+                    class="lock-input"
+                    autocomplete="current-password"
+                    placeholder="••••••"
+                    required>
+                <button type="submit" class="btn-primary lock-button">Ξεκλείδωμα</button>
+            </div>
+            <p class="lock-error" id="lockError" role="alert" aria-live="polite"></p>
+        </form>
+    </div>
+</div>
 <div class="page">
     <header class="header">
         <div class="header-inner">
@@ -39,16 +61,20 @@
                     <div class="stepper-sub" id="stepSub2"></div>
                 </li>
                 <li class="stepper-item" data-step="3">
-                    Ημέρα
+                    Υπάλληλος
                     <div class="stepper-sub" id="stepSub3"></div>
                 </li>
                 <li class="stepper-item" data-step="4">
-                    Ώρα
+                    Ημέρα
                     <div class="stepper-sub" id="stepSub4"></div>
                 </li>
                 <li class="stepper-item" data-step="5">
-                    Στοιχεία
+                    Ώρα
                     <div class="stepper-sub" id="stepSub5"></div>
+                </li>
+                <li class="stepper-item" data-step="6">
+                    Στοιχεία
+                    <div class="stepper-sub" id="stepSub6"></div>
                 </li>
             </ol>
 
@@ -57,6 +83,8 @@
                 <input type="hidden" name="service_category" id="serviceCategoryInput">
                 <input type="hidden" name="service_id" id="serviceIdInput">
                 <input type="hidden" name="service_name" id="serviceNameInput">
+                <input type="hidden" name="operator_id" id="operatorIdInput">
+                <input type="hidden" name="operator_name" id="operatorNameInput">
                 <input type="hidden" name="time" id="timeInput">
 
                 <!-- STEP 1: Category -->
@@ -166,8 +194,48 @@
                     </div>
                 </section>
 
-                <!-- STEP 3: Date -->
+                <!-- STEP 3: Operator -->
                 <section class="step" data-step="3">
+                    <h2 class="step-title">Επίλεξε υπάλληλο</h2>
+                    <p class="step-subtitle">Διάλεξε ποιος/ποια θα αναλάβει την υπηρεσία σου.</p>
+
+                    <div id="operatorTiles" class="choice-grid" role="radiogroup" aria-label="Επιλογή υπαλλήλου">
+                        <button type="button" class="choice-tile"
+                                data-operator-id="any"
+                                data-operator-name="Χωρίς προτίμηση"
+                                aria-pressed="false">
+                            <span class="choice-title">Χωρίς προτίμηση</span>
+                            <span class="choice-subtitle">Θα οριστεί διαθέσιμος συνεργάτης</span>
+                        </button>
+
+                        <button type="button" class="choice-tile"
+                                data-operator-id="1"
+                                data-operator-name="Άννα"
+                                aria-pressed="false">
+                            <span class="choice-title">Άννα</span>
+                            <span class="choice-subtitle">Μανικιούρ &amp; ημιμόνιμο</span>
+                        </button>
+
+                        <button type="button" class="choice-tile"
+                                data-operator-id="2"
+                                data-operator-name="Μαρία"
+                                aria-pressed="false">
+                            <span class="choice-title">Μαρία</span>
+                            <span class="choice-subtitle">Πεντικιούρ &amp; spa</span>
+                        </button>
+
+                        <button type="button" class="choice-tile"
+                                data-operator-id="3"
+                                data-operator-name="Ελένη"
+                                aria-pressed="false">
+                            <span class="choice-title">Ελένη</span>
+                            <span class="choice-subtitle">Αποτρίχωση</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- STEP 4: Date -->
+                <section class="step" data-step="4">
                     <h2 class="step-title">Επίλεξε ημέρα</h2>
                     <p class="step-subtitle">Διάλεξε την ημερομηνία που σε βολεύει.</p>
 
@@ -210,8 +278,8 @@
                     <input type="hidden" id="dateInput" name="date" required>
                 </section>
 
-                <!-- STEP 4: Time -->
-                <section class="step" data-step="4">
+                <!-- STEP 5: Time -->
+                <section class="step" data-step="5">
                     <h2 class="step-title">Επίλεξε ώρα</h2>
                     <p class="step-subtitle">Οι ώρες είναι ενδεικτικές. Αργότερα θα συνδεθούν με πραγματική διαθεσιμότητα.</p>
 
@@ -225,8 +293,8 @@
                     </div>
                 </section>
 
-                <!-- STEP 5: Client details -->
-                <section class="step" data-step="5">
+                <!-- STEP 6: Client details -->
+                <section class="step" data-step="6">
                     <h2 class="step-title">Στοιχεία επικοινωνίας</h2>
                     <p class="step-subtitle">Συμπλήρωσε τα στοιχεία σου για να επιβεβαιώσουμε το ραντεβού.</p>
 
@@ -281,9 +349,54 @@
         const today = new Date();
         const dateInput = document.getElementById('dateInput');
         const yearSpan = document.getElementById('year');
+        const lockOverlay = document.getElementById('lockOverlay');
+        const lockForm = document.getElementById('lockForm');
+        const lockInput = document.getElementById('lockPassword');
+        const lockError = document.getElementById('lockError');
+        const accessPassword = 'demo123';
 
         if (yearSpan) {
             yearSpan.textContent = today.getFullYear();
+        }
+
+        function setLocked(isLocked) {
+            if (!lockOverlay) return;
+            lockOverlay.classList.toggle('lock-overlay--hidden', !isLocked);
+            lockOverlay.setAttribute('aria-hidden', isLocked ? 'false' : 'true');
+            document.body.classList.toggle('is-locked', isLocked);
+
+            if (isLocked && lockInput) {
+                lockInput.focus();
+            }
+        }
+
+        setLocked(true);
+
+        if (lockForm) {
+            lockForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                if (!lockInput) return;
+
+                const isValid = lockInput.value === accessPassword;
+                if (isValid) {
+                    if (lockError) lockError.textContent = '';
+                    lockInput.value = '';
+                    setLocked(false);
+                    return;
+                }
+
+                if (lockError) {
+                    lockError.textContent = 'Λάθος κωδικός. Δοκίμασε ξανά.';
+                }
+                lockInput.focus();
+                lockInput.select();
+            });
+        }
+
+        if (lockInput) {
+            lockInput.addEventListener('input', () => {
+                if (lockError) lockError.textContent = '';
+            });
         }
 
         const steps = document.querySelectorAll('.step');
@@ -295,12 +408,15 @@
         const serviceCategoryInput = document.getElementById('serviceCategoryInput');
         const serviceIdInput = document.getElementById('serviceIdInput');
         const serviceNameInput = document.getElementById('serviceNameInput');
+        const operatorIdInput = document.getElementById('operatorIdInput');
+        const operatorNameInput = document.getElementById('operatorNameInput');
         const timeInput = document.getElementById('timeInput');
         const nameInput = document.getElementById('nameInput');
 
         /* Choice tiles & slots */
         const categoryTiles = document.querySelectorAll('[data-category]:not([data-service-id])');
         const serviceTiles = document.querySelectorAll('#serviceTiles [data-service-id]');
+        const operatorTiles = document.querySelectorAll('#operatorTiles [data-operator-id]');
         const timeSlots = document.querySelectorAll('.time-slot');
 
         /* Stepper subtitles under dots */
@@ -309,8 +425,9 @@
         const stepSub3 = document.getElementById('stepSub3');
         const stepSub4 = document.getElementById('stepSub4');
         const stepSub5 = document.getElementById('stepSub5');
+        const stepSub6 = document.getElementById('stepSub6');
 
-        /* Inline calendar elements & state (Step 3) */
+        /* Inline calendar elements & state (Step 4) */
         const calendarMonthLabel = document.getElementById('calendarMonthLabel');
         const calendarDaysContainer = document.getElementById('calendarDays');
         const calendarPrevBtn = document.getElementById('calendarPrev');
@@ -417,17 +534,21 @@
             // Step 2: specific service (shortened)
             stepSub2.textContent = truncate(serviceNameInput.value || '', 18);
 
-            // Step 3: date
-            stepSub3.textContent = (dateInput && dateInput.value)
+            // Step 3: operator (shortened)
+            const operatorValue = operatorNameInput && operatorNameInput.value ? operatorNameInput.value : '';
+            stepSub3.textContent = truncate(operatorValue, 14);
+
+            // Step 4: date
+            stepSub4.textContent = (dateInput && dateInput.value)
                 ? formatDateReadable(dateInput.value)
                 : '';
 
-            // Step 4: time
-            stepSub4.textContent = timeInput.value || '';
+            // Step 5: time
+            stepSub5.textContent = timeInput.value || '';
 
-            // Step 5: client name (shortened)
+            // Step 6: client name (shortened)
             const nameValue = nameInput && nameInput.value ? nameInput.value : '';
-            stepSub5.textContent = truncate(nameValue, 14);
+            stepSub6.textContent = truncate(nameValue, 14);
         }
 
         function buildCalendar(year, month) {
@@ -585,9 +706,15 @@
                     serviceTile.setAttribute('aria-pressed', 'false');
                 });
 
-                // Reset dependent fields: service, date, time
+                // Reset dependent fields: service, operator, date, time
                 serviceIdInput.value = '';
                 serviceNameInput.value = '';
+                operatorIdInput.value = '';
+                operatorNameInput.value = '';
+                operatorTiles.forEach(t => {
+                    t.classList.remove('choice-tile--selected');
+                    t.setAttribute('aria-pressed', 'false');
+                });
                 if (dateInput) dateInput.value = '';
                 timeInput.value = '';
                 timeSlots.forEach(s => {
@@ -616,7 +743,13 @@
                 serviceIdInput.value = tile.dataset.serviceId;
                 serviceNameInput.value = tile.dataset.serviceName || '';
 
-                // When changing service, reset date/time (availability may differ)
+                // When changing service, reset operator/date/time (availability may differ)
+                operatorIdInput.value = '';
+                operatorNameInput.value = '';
+                operatorTiles.forEach(t => {
+                    t.classList.remove('choice-tile--selected');
+                    t.setAttribute('aria-pressed', 'false');
+                });
                 if (dateInput) dateInput.value = '';
                 timeInput.value = '';
                 timeSlots.forEach(s => {
@@ -632,7 +765,42 @@
             });
         });
 
-        /* STEP 3: Date selection */
+        /* STEP 3: Operator selection */
+        operatorTiles.forEach(tile => {
+            tile.addEventListener('click', () => {
+                operatorTiles.forEach(t => {
+                    t.classList.remove('choice-tile--selected');
+                    t.setAttribute('aria-pressed', 'false');
+                });
+                tile.classList.add('choice-tile--selected');
+                tile.setAttribute('aria-pressed', 'true');
+
+                operatorIdInput.value = tile.dataset.operatorId || '';
+                operatorNameInput.value = tile.dataset.operatorName || '';
+
+                // Changing operator clears date/time
+                if (dateInput) dateInput.value = '';
+                const prevSelected = calendarDaysContainer
+                    ? calendarDaysContainer.querySelector('.calendar-day--selected')
+                    : null;
+                if (prevSelected) {
+                    prevSelected.classList.remove('calendar-day--selected');
+                }
+                timeInput.value = '';
+                timeSlots.forEach(s => {
+                    s.classList.remove('time-slot--selected');
+                    s.setAttribute('aria-pressed', 'false');
+                });
+
+                // Now steps 1–4 are valid
+                maxStepAvailable = 4;
+                updateStepperSummaries();
+                updateStepperLockState();
+                showStep(4);
+            });
+        });
+
+        /* STEP 4: Date selection */
         if (dateInput) {
             dateInput.addEventListener('change', () => {
                 if (dateInput.value) {
@@ -643,20 +811,20 @@
                         s.setAttribute('aria-pressed', 'false');
                     });
 
-                    // Now steps 1–4 are valid
-                    maxStepAvailable = 4;
+                    // Now steps 1–5 are valid
+                    maxStepAvailable = 5;
                     updateStepperSummaries();
                     updateStepperLockState();
-                    showStep(4);
+                    showStep(5);
                 } else {
-                    maxStepAvailable = 3;
+                    maxStepAvailable = 4;
                     updateStepperSummaries();
                     updateStepperLockState();
                 }
             });
         }
 
-        /* STEP 4: Time selection */
+        /* STEP 5: Time selection */
         timeSlots.forEach(slot => {
             slot.addEventListener('click', () => {
                 timeSlots.forEach(s => {
@@ -668,15 +836,15 @@
 
                 timeInput.value = slot.dataset.time || '';
 
-                // Now all steps 1–5 are valid
-                maxStepAvailable = 5;
+                // Now all steps 1–6 are valid
+                maxStepAvailable = 6;
                 updateStepperSummaries();
                 updateStepperLockState();
-                showStep(5);
+                showStep(6);
             });
         });
 
-        /* STEP 5: Client name updates subtext */
+        /* STEP 6: Client name updates subtext */
         if (nameInput) {
             nameInput.addEventListener('input', updateStepperSummaries);
         }
@@ -688,8 +856,9 @@
 
             if (!serviceCategoryInput.value) missing.push({ field: 'κατηγορία υπηρεσίας', step: 1 });
             if (!serviceIdInput.value) missing.push({ field: 'υπηρεσία', step: 2 });
-            if (!dateInput.value) missing.push({ field: 'ημερομηνία', step: 3 });
-            if (!timeInput.value) missing.push({ field: 'ώρα', step: 4 });
+            if (!operatorIdInput.value) missing.push({ field: 'υπάλληλος', step: 3 });
+            if (!dateInput.value) missing.push({ field: 'ημερομηνία', step: 4 });
+            if (!timeInput.value) missing.push({ field: 'ώρα', step: 5 });
 
             if (missing.length > 0) {
                 e.preventDefault();
